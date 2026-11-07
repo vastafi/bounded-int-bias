@@ -19,7 +19,17 @@ for %%n in (20000 1610612736) do (
   build\rand_mod.exe %%n 100000 2026 > "%R%\c-randmod\c_randmod_n%%n_N100000_seed2026.txt" 2> "%R%\c-randmod\rand_max.txt"
 )
 
+rem E3: language standard functions and common idioms (each runs only if the language is installed)
+set NB=1610612736
+set NN=100000
+set SEED=2026
+python --version >nul 2>nul && (python src\languages\python\sample_python.py %NB% %NN% %SEED% "%R%\python-sample") || echo Python lipseste: sarit
+where Rscript >nul 2>nul && (Rscript src\languages\r\sample_r.R %NB% %NN% %SEED% "%R%\r-sample" >nul) || echo R lipseste: sarit
+where java >nul 2>nul && (java src\languages\java\SampleJava.java %NB% %NN% %SEED% "%R%\java-sample") || echo Java lipseste: sarit
+where node >nul 2>nul && (node src\languages\javascript\sample_js.js %NB% %NN% "%R%\js-sample") || echo Node.js lipseste: sarit
+rem Raw files stay uncompressed on Windows; Claude compresses them on import.
+
 rem Environment: JSON if Python is available, plain text otherwise
-where python >nul 2>nul && (python scripts\record_env.py %ID% >nul) || (ver > "%R%\environment.txt" & g++ --version >> "%R%\environment.txt")
+python --version >nul 2>nul && (python scripts\record_env.py %ID% >nul) || (ver > "%R%\environment.txt" & g++ --version >> "%R%\environment.txt")
 g++ --version > "%R%\cpp-uniform\compiler.txt"
 echo Gata. Rezultatele sunt in %R%

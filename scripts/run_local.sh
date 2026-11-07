@@ -19,6 +19,24 @@ for n in 20000 1610612736; do
   ./build/rand_mod "$n" 100000 2026 > "$R/c-randmod/c_randmod_n${n}_N100000_seed2026.txt" 2> "$R/c-randmod/rand_max.txt"
 done
 
+# E3: language standard functions and common idioms (each runs only if the language is installed)
+NB=1610612736; NN=100000; SEED=2026
+if command -v python3 >/dev/null 2>&1; then
+  python3 src/languages/python/sample_python.py $NB $NN $SEED "$R/python-sample"
+else echo "Python lipseste: sarit"; fi
+if command -v Rscript >/dev/null 2>&1; then
+  Rscript src/languages/r/sample_r.R $NB $NN $SEED "$R/r-sample" > /dev/null
+  R --version | head -1 > "$R/r-sample/version.txt"
+else echo "R lipseste: sarit"; fi
+if command -v java >/dev/null 2>&1; then
+  java src/languages/java/SampleJava.java $NB $NN $SEED "$R/java-sample"
+else echo "Java lipseste: sarit"; fi
+if command -v node >/dev/null 2>&1; then
+  node src/languages/javascript/sample_js.js $NB $NN "$R/js-sample"
+else echo "Node.js lipseste: sarit"; fi
+# compress large raw files (analyze_sample.py reads .gz directly)
+find "$R" -name '*_N100000_*.txt' -exec gzip -f {} \;
+
 # Environment: JSON if Python is available, plain text otherwise
 if command -v python3 >/dev/null 2>&1; then
   python3 scripts/record_env.py "$ID" > /dev/null

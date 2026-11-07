@@ -25,6 +25,19 @@ eșantioane. Detalii și statutul fiecărei afirmații: [`docs/METODOLOGIE.md`](
 | `Rounding` (R ≤ 3.5) | p ≈ 10⁻⁵ (detectat) | p = 0,93 (nedetectat) |
 | `Rejection` (R ≥ 3.6) | p = 0,11 | p = 0,54 |
 
+**Toate limbajele, sursa `linux-cloud`, n = 1,5·2^30, N = 100 000** (`results/linux-cloud/summary.csv`)
+
+| Funcție | Biți | N* (formulă) | p test valori grele | Concluzie |
+|---|---|---|---|---|
+| C `rand() % n` (glibc) | 31 | 63 | ≈ 0 | bias detectat |
+| R `sample()` vechi (`Rounding`) | 32 | 251 | ≈ 0 | bias detectat |
+| R `sample()` nou (`Rejection`) | — | — | 0,42 | corect |
+| Java `nextInt(n)` | — | — | 0,43 | corect |
+| Python `randrange`, numpy | — | — | 0,27; 0,13 | corect |
+| JS `crypto.randomInt` | — | — | 0,67 | corect |
+| Python `int(random()*n)`, Java `(long)(nextDouble()*n)` | 53 | 1,1·10¹⁵ | 0,36; 0,36 | bias există, nedetectabil practic |
+| JS `Math.floor(Math.random()*n)` | 52 | 2,8·10¹⁴ | 0,92 | bias există, nedetectabil practic |
+
 **Puterea testelor la N = 4·N\*** (α = 0,05, 400 de repetări; valori medii pe 4 valori ale lui n)
 
 | Metoda | test pe valori grele | χ² B=10 | χ² B=100 | χ² B=1 000 | χ² B=10 000 |
@@ -58,6 +71,7 @@ python scripts/record_env.py <source-id>
 Rscript src/languages/r/sample_r.R 1610612736 100000 2026 results/<source-id>/r-sample
 python src/analyze_sample.py results/<source-id>/r-sample/<fișier> --n 1610612736 --method mult
 python src/simulation/power.py --out results/<source-id>/power --bins 10 100 1000 10000
+python scripts/analyze_all.py <source-id>
 ```
 
 Pentru C/C++ pe Mac sau Linux: `sh scripts/run_local.sh <source-id>`; pe Windows: `scripts\run_local.bat <source-id>`.
