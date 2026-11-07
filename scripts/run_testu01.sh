@@ -12,7 +12,7 @@ R="results/$ID/testu01"
 mkdir -p "$R" build
 
 if [ ! -f "$TU/include/bbattery.h" ]; then
-  echo "Instalez TestU01 in $TU (o singura data)..."
+  echo "Installing TestU01 in $TU (once)..."
   rm -rf build/TestU01-src
   git clone -q --depth 1 https://github.com/umontreal-simul/TestU01-2009.git build/TestU01-src
   cd build/TestU01-src
@@ -32,8 +32,8 @@ for g in raw rejection mult mod; do
 done
 if [ "$MODE" = "crush" ]; then
   for g in raw rejection mult mod; do
-    echo "Crush: $g (dureaza)"
+    echo "Crush: $g (takes a while)"
     ./build/convert_battery "$g" crush > "$R/${g}_crush.txt" 2>&1
   done
 fi
-echo "Gata. Rezultatele sunt in $R"
+echo "Done. Results are in $R"

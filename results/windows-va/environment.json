@@ -9,8 +9,8 @@
   "clang": null,
   "java": "openjdk version \"25.0.5\" 2026-10-20 LTS",
   "node": "v26.13.0",
-  "note": " fisierele brute comprimate .gz la import; r-sample/version.txt lipseste (versiunea R e in campul R)",
+  "note": "raw files compressed to .gz on import; r-sample/version.txt missing (R version is in the R field)",
   "numpy": "2.0.2",
   "scipy": "1.13.1",
-  "cpu": "Intel Pentium (declarat de utilizator)"
+  "cpu": "Intel Pentium (reported by the user)"
 }

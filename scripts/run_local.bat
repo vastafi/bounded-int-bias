@@ -23,13 +23,13 @@ rem E3: language standard functions and common idioms (each runs only if the lan
 set NB=1610612736
 set NN=100000
 set SEED=2026
-python --version >nul 2>nul && (python src\languages\python\sample_python.py %NB% %NN% %SEED% "%R%\python-sample") || echo Python lipseste: sarit
-where Rscript >nul 2>nul && (Rscript src\languages\r\sample_r.R %NB% %NN% %SEED% "%R%\r-sample" >nul) || echo R lipseste: sarit
-where java >nul 2>nul && (java src\languages\java\SampleJava.java %NB% %NN% %SEED% "%R%\java-sample") || echo Java lipseste: sarit
-where node >nul 2>nul && (node src\languages\javascript\sample_js.js %NB% %NN% "%R%\js-sample") || echo Node.js lipseste: sarit
-rem Raw files stay uncompressed on Windows; Claude compresses them on import.
+python --version >nul 2>nul && (python src\languages\python\sample_python.py %NB% %NN% %SEED% "%R%\python-sample") || echo Python not found: skipped
+where Rscript >nul 2>nul && (Rscript src\languages\r\sample_r.R %NB% %NN% %SEED% "%R%\r-sample" >nul) || echo R not found: skipped
+where java >nul 2>nul && (java src\languages\java\SampleJava.java %NB% %NN% %SEED% "%R%\java-sample") || echo Java not found: skipped
+where node >nul 2>nul && (node src\languages\javascript\sample_js.js %NB% %NN% "%R%\js-sample") || echo Node.js not found: skipped
+rem Raw files stay uncompressed on Windows; compress them (.gz) before committing.
 
 rem Environment: JSON if Python is available, plain text otherwise
 python --version >nul 2>nul && (python scripts\record_env.py %ID% >nul) || (ver > "%R%\environment.txt" & g++ --version >> "%R%\environment.txt")
 g++ --version > "%R%\cpp-uniform\compiler.txt"
-echo Gata. Rezultatele sunt in %R%
+echo Done. Results are in %R%

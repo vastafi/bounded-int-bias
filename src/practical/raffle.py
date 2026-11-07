@@ -30,7 +30,7 @@ for m in (100, 1000, 20000, 50000):
     if m > 2**15:  # Windows: participants above 32767 can never win
         rows.append({"m": m, "rand": "windows-15bit", "favoured_participants": 2**15, "p_favoured": 1 / 2**15,
                      "p_other": 0.0, "ratio": float("inf"), "fair_p": 1 / m,
-                     "note": f"{m - 2**15} participanti ({(m - 2**15) / m:.0%}) nu pot castiga niciodata"})
+                     "note": f"{m - 2**15} participants ({(m - 2**15) / m:.0%}) can never win"})
 fields = ["m", "rand", "favoured_participants", "p_favoured", "p_other", "ratio", "fair_p",
           "sim_draws", "sim_share_favoured", "exact_share_favoured", "note"]
 with open(os.path.join(out, "raffle.csv"), "w", newline="") as fh:

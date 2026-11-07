@@ -24,6 +24,6 @@ try:
     import numpy as np
     dump("numpy", np.random.default_rng(seed).integers(0, n, size=N).tolist())
 except ImportError:
-    print("numpy lipseste: varianta numpy sarita", file=sys.stderr)
+    print("numpy not installed: numpy variant skipped", file=sys.stderr)
 with open(os.path.join(out, "version.txt"), "w") as fh:
     fh.write(sys.version + "\n")

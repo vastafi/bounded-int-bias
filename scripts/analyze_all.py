@@ -24,8 +24,8 @@ RULES = [
     ("js_floorrandom", "mult", 52, "idiom Math.floor(Math.random()*n)"),
     ("js_cryptorandint", "mod", 48, "control"),
     ("c_randmod", "mod", None, "idiom rand() % n"),      # w from rand_max.txt
-    ("excel_randbetween", "mult", 32, "RANDBETWEEN (w provizoriu)"),
-    ("excel_intrand", "mult", 32, "INT(RAND()*n) (w provizoriu)"),
+    ("excel_randbetween", "mult", 32, "RANDBETWEEN (provisional w)"),
+    ("excel_intrand", "mult", 32, "INT(RAND()*n) (provisional w)"),
 ]
 
 
@@ -60,7 +60,7 @@ def main():
             ys = ys - 1
         row = {"source": sid, "file": name, "role": role, "method": method, "w": w, "n": n, "N": len(ys)}
         if 2**w < n:
-            row.update({"note": f"interval trunchiat: doar 2^{w} valori posibile, max observat {max(ys)}"})
+            row.update({"note": f"truncated range: only 2^{w} possible values, max observed {max(ys)}"})
             rows.append(row)
             continue
         p0, p1 = heavy_probabilities(n, w)
@@ -73,7 +73,7 @@ def main():
             "frac_heavy": round(h / len(ys), 5), "p_heavy_uniform": round(p0, 5), "p_heavy_biased": round(p1, 5),
             "p_heavy_test": f"{binomtest(h, len(ys), p0).pvalue:.3g}",
             "p_chi2_B10": f"{chi2.sf(x2, 9):.3g}",
-            "note": "N >= N*: un bias de acest tip ar fi detectat" if n_star(n, w) <= len(ys) else "N < N*: bias prea mic pentru acest N",
+            "note": "N >= N*: a bias of this structure would be detected" if n_star(n, w) <= len(ys) else "N < N*: bias too small for this N",
         })
         rows.append(row)
     out = os.path.join(root, "summary.csv")

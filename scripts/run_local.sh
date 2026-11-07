@@ -23,17 +23,17 @@ done
 NB=1610612736; NN=100000; SEED=2026
 if command -v python3 >/dev/null 2>&1; then
   python3 src/languages/python/sample_python.py $NB $NN $SEED "$R/python-sample"
-else echo "Python lipseste: sarit"; fi
+else echo "Python not found: skipped"; fi
 if command -v Rscript >/dev/null 2>&1; then
   Rscript src/languages/r/sample_r.R $NB $NN $SEED "$R/r-sample" > /dev/null
   R --version | head -1 > "$R/r-sample/version.txt"
-else echo "R lipseste: sarit"; fi
+else echo "R not found: skipped"; fi
 if command -v java >/dev/null 2>&1; then
   java src/languages/java/SampleJava.java $NB $NN $SEED "$R/java-sample"
-else echo "Java lipseste: sarit"; fi
+else echo "Java not found: skipped"; fi
 if command -v node >/dev/null 2>&1; then
   node src/languages/javascript/sample_js.js $NB $NN "$R/js-sample"
-else echo "Node.js lipseste: sarit"; fi
+else echo "Node.js not found: skipped"; fi
 # compress large raw files (analyze_sample.py reads .gz directly)
 find "$R" -name '*_N100000_*.txt' -exec gzip -f {} \;
 
@@ -44,4 +44,4 @@ else
   { uname -a; "$CXX" --version; } > "$R/environment.txt"
 fi
 "$CXX" --version > "$R/cpp-uniform/compiler.txt"
-echo "Gata. Rezultatele sunt in $R"
+echo "Done. Results are in $R"
