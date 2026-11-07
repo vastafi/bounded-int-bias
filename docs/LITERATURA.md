@@ -18,6 +18,20 @@ Verificată la sursă pe 7 noiembrie 2026. BibTeX complet: `references.bib`.
 | Matsumoto & Nishimura 1998, ACM TOMACS 8 | Mersenne Twister | — (generatorul de bază) |
 | Goualard 2022, ACM TOMACS 32(3), doi:10.1145/3503512 | Numere reale într-un interval | Extindere posibilă |
 
+## Verificarea noutății formulei N* (8 nov. 2026)
+
+Căutare țintită (3 interogări extinse). Cele mai apropiate surse:
+
+| Sursă | Ce are | Diferența față de proiect |
+|---|---|---|
+| Cook 2018, blog | Volum pentru a distinge **două** valori: ≈ 8(p₁+p₂)/(p₁−p₂)²; pentru n = 52 dă ≈ 6·10¹⁸ | Noi grupăm toate cele r valori grele; volumul scade de ≈ n/2 ori (de ~10⁹ ori la n = 1,6·10⁹) |
+| Banić & Elezović, arXiv:2606.01465 | Test de uniformitate pentru alternative structurate (perioada 2), motivat de cuantizare | Altă structură; nu tratează modulo/înmulțirea și nici volumul necesar |
+
+Concluzie: nu am găsit formula N* publicată. Logica de volum (două proporții) este însă standard, deci
+contribuția trebuie prezentată ca **testul care grupează valorile grele + diferența exactă r(n−r)/(n·2^w)**, nu ca
+o formulă de volum nouă în sine. Căutarea nu dovedește noutatea; se reia în baze (Scopus, MathSciNet) înainte de
+trimitere.
+
 ## De făcut
 
 - Căutare țintită: formula N* (secțiunea 3 din METODOLOGIE) a mai fost publicată?
