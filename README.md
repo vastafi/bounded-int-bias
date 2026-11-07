@@ -91,17 +91,20 @@ concentrated at the start of the range and χ² with few classes detects it.
 | `rejection` (correct) | **8 failed** (artefact) | 0 failed |
 | `mult` (`floor(n·U)`) | 8 failed | 9 failed |
 | `mod` (`k mod n`) | 12 failed | 7 failed |
+| `mult`, 53-bit source (Python `random()`) | — | 0 failed |
+| `mod`, 53-bit source | — | 0 failed |
 
 Feeding y / n directly makes even the correct conversion fail: y / n has only ~30.6 bits and TestU01 reads 32, so
 the bit-level tests see the lattice, not the bias. With dithering (V uniform from the next output) the correct
 conversion passes and both biased conversions fail. `mod` fails tests on the coarse distribution (MaxOft,
 RandomWalk1); `mult` fails only tests that read low-order bits (Gap, SimpPoker, CouponCollector, HammingIndep,
 WeightDistrib), because its heavy values repeat with period 3 (y = ⌊3k/8⌋) and equal-width classes average them out.
+With a 53-bit source both conversions pass, as predicted by N* ≈ 1.1·10¹⁵.
 
 ### Still to run
 
 - E5: Excel (`RANDBETWEEN`, `INT(RAND()*n)`, resolution of `RAND()`) on Windows and macOS.
-- E7: Crush (overnight) and a w = 53 case where the bias is below the detection limit.
+- E7: Crush (overnight).
 
 ## Layout
 

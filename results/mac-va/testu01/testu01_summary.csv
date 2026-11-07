@@ -1,6 +1,8 @@
 generator,battery,statistics,complete,n_failed,failed_tests
+mod53_d,smallcrush,15,True,0,
 mod_d,smallcrush,15,True,7,MaxOft eps; MaxOft AD 1 - eps1; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps; RandomWalk1 R eps; RandomWalk1 C eps
 mod,smallcrush,15,True,12,Gap eps; SimpPoker eps; CouponCollector eps; MaxOft eps; MaxOft AD 1 - eps1; WeightDistrib eps; HammingIndep eps; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps; RandomWalk1 R 1.3e-4; RandomWalk1 C eps
+mult53_d,smallcrush,15,True,0,
 mult_d,smallcrush,15,True,9,BirthdaySpacings 5.9e-4; Gap eps; SimpPoker eps; CouponCollector eps; WeightDistrib eps; HammingIndep eps; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps
 mult,smallcrush,15,True,8,Gap eps; SimpPoker eps; CouponCollector eps; WeightDistrib eps; HammingIndep eps; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps
 raw,smallcrush,15,True,0,
