@@ -60,8 +60,8 @@ python src/analyze_sample.py results/<source-id>/r-sample/<fișier> --n 16106127
 python src/simulation/power.py --out results/<source-id>/power --bins 10 100 1000 10000
 ```
 
-Pentru C/C++ (Linux, Mac, Windows) vezi comentariile din `src/languages/c` și `src/languages/cpp`;
-pentru Excel, `src/languages/excel/PROTOCOL.md`. Regulile pentru rezultate: `results/README.md`.
+Pentru C/C++ pe Mac sau Linux: `sh scripts/run_local.sh <source-id>`; pe Windows: `scripts\run_local.bat <source-id>`.
+Pentru Excel: `src/languages/excel/PROTOCOL.md`. Regulile pentru rezultate: `results/README.md`.
 
 ## Licență
 
