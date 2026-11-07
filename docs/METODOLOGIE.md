@@ -59,7 +59,7 @@ clase. Pentru `mod`, valorile grele sunt grupate la început, iar χ² cu puțin
 | E4 | Reproductibilitatea: același seed pe implementări C++ diferite | `src/languages/cpp` (Linux libstdc++, Mac libc++) |
 | E5 | Excel ca „cutie neagră”: `RANDBETWEEN`, `INT(RAND()*n)`, rezoluția lui `RAND()` | `src/languages/excel` (Windows, Mac) |
 | E6 | Efect practic: tragere la sorți cu `rand() % m` (Windows vs. Linux/Mac) | `src/practical/raffle.py` |
-| E7 | Dacă TestU01 prinde biasul după conversie | de implementat |
+| E7 | Dacă TestU01 (SmallCrush, Crush) prinde biasul după conversie: MT19937 brut, respingere, `mult`, `mod`, n = 1,5·2^30 | `src/testu01/`, `scripts/run_testu01.sh` (rulat pe Mac) |
 
 Valori n: uzuale (6, 10, 52, 100, 1 000) și cu bias mare (r(n−r) mare, aproape de 2^w / 1,5).
 

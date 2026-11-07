@@ -19,6 +19,7 @@ results/<source-id>/
 ├── js-sample/              E3: Math.floor(Math.random()*n), crypto.randomInt (dacă e instalat Node.js)
 ├── summary.csv             analiza tuturor fișierelor: python scripts/analyze_all.py <source-id>
 ├── power/                  E2: simularea puterii (doar linux-cloud)
+├── testu01/                E7: SmallCrush/Crush pe generatorul brut și pe trei conversii (sh scripts/run_testu01.sh)
 └── excel-sample/           E5: doar la sursele excel-*
 ```
 
