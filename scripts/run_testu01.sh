@@ -33,12 +33,12 @@ cc -O2 -I"$TU/include" src/testu01/convert_battery.c -L"$TU/lib" \
   || { echo "Compiling convert_battery failed:"; cat build/convert_battery-compile.log; exit 1; }
 echo "TestU01 ready; running SmallCrush (about 1 minute per generator)"
 
-for g in raw rejection mult mod rejection_d mult_d mod_d; do
+for g in raw rejection mult mod rejection_d mult_d mod_d mult53_d mod53_d; do
   echo "SmallCrush: $g"
   ./build/convert_battery "$g" small > "$R/${g}_smallcrush.txt" 2>&1
 done
 if [ "$MODE" = "crush" ]; then
-  for g in raw rejection mult mod rejection_d mult_d mod_d; do
+  for g in raw rejection mult mod rejection_d mult_d mod_d mult53_d mod53_d; do
     echo "Crush: $g (takes a while)"
     ./build/convert_battery "$g" crush > "$R/${g}_crush.txt" 2>&1
   done
