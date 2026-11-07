@@ -1,0 +1,16 @@
+{
+  "source_id": "windows-va",
+  "recorded_utc": "2026-11-07T22:25:07+00:00",
+  "os": "Windows-10-10.0.19045-SP0",
+  "machine": "AMD64",
+  "python": "3.9.13",
+  "R": "R version 4.6.2 (2026-10-29 ucrt) -- \"Diversified Portfolio\"",
+  "gcc": "gcc (Rev6, Built by MSYS2 project) 16.2.0",
+  "clang": null,
+  "java": "openjdk version \"25.0.5\" 2026-10-20 LTS",
+  "node": "v26.13.0",
+  "note": " fisierele brute comprimate .gz la import; r-sample/version.txt lipseste (versiunea R e in campul R)",
+  "numpy": "2.0.2",
+  "scipy": "1.13.1",
+  "cpu": "Intel Pentium (declarat de utilizator)"
+}

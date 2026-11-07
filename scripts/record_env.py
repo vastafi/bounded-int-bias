@@ -26,6 +26,7 @@ def main():
         "recorded_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
         "os": platform.platform(),
         "machine": platform.machine(),
+        "cpu": platform.processor(),
         "python": platform.python_version(),
         "R": ver(["R", "--version"]),
         "gcc": ver(["gcc", "--version"]),

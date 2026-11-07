@@ -38,16 +38,19 @@ eșantioane. Detalii și statutul fiecărei afirmații: [`docs/METODOLOGIE.md`](
 | Python `int(random()*n)`, Java `(long)(nextDouble()*n)` | 53 | 1,1·10¹⁵ | 0,36; 0,36 | bias există, nedetectabil practic |
 | JS `Math.floor(Math.random()*n)` | 52 | 2,8·10¹⁴ | 0,92 | bias există, nedetectabil practic |
 
-**Reproductibilitate Linux (glibc, libstdc++) vs. macOS arm64 (libc, libc++), același seed**
-(`results/reproducibility_linux-cloud_vs_mac-va.csv`)
+**Reproductibilitate pe trei sisteme, același seed** (`results/reproducibility_*.csv`)
 
-| Funcție | Identic pe ambele sisteme? |
-|---|---|
-| C++ `std::uniform_int_distribution` cu `mt19937` | **nu, diferă de la prima valoare** (libstdc++ vs. libc++) |
-| C `rand() % n` | nu (algoritmi `rand()` diferiți) |
-| R `sample()` (ambele metode), Python `random` și numpy, Java `Random` | da, toate cele 100 000 de valori |
+| Funcție | Linux x86-64 (glibc, libstdc++) | macOS arm64 (libc, libc++) | Windows x86-64, Pentium (MinGW: libstdc++) |
+|---|---|---|---|
+| C++ `uniform_int_distribution` + `mt19937` | referință | **diferă de la prima valoare** | identic cu Linux |
+| C `rand()` | `RAND_MAX` = 2^31−1 | `RAND_MAX` = 2^31−1, alt algoritm | **`RAND_MAX` = 32 767** |
+| R, Python (random, numpy), Java | referință | identic | identic |
 
-Concluziile despre bias sunt aceleași pe Linux și pe Mac (`results/mac-va/summary.csv`).
+Diferențele vin din biblioteca standard folosită, nu din sistemul de operare sau din procesor: Windows cu libstdc++
+coincide cu Linux, iar R, Python și Java dau aceleași 100 000 de valori pe x86 și pe ARM.
+
+Pe Windows, `rand() % n` are bias mare deja la n = 20 000 (N* ≈ 91; p ≈ 0), iar pentru n = 1,5·2^30 produce doar
+valori sub 32 768: aproape tot intervalul cerut nu apare niciodată.
 
 **Puterea testelor la N = 4·N\*** (α = 0,05, 400 de repetări; valori medii pe 4 valori ale lui n)
 
