@@ -5,3 +5,5 @@ __pycache__/
 *.out
 a.out
 build/
+.idea/
+*.patch
