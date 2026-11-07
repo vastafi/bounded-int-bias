@@ -1,15 +1,19 @@
 /* E7: does a standard battery (TestU01) detect the bias introduced by bounded-integer conversion?
  *
- * Four generators, all built on the same MT19937 stream (seed 2026), all returning u = y / n in [0,1):
+ * Seven generators on the same MT19937 stream (seed 2026); the first four return u = y / n in [0,1):
  *   raw       : u = k / 2^32                      (control: the generator itself)
  *   rejection : y = unbiased (rejection) in [0,n) (control: correct conversion, same discretisation)
  *   mult      : y = floor(n * k / 2^32)           (R <= 3.5 sample(), INT(RAND()*n))
  *   mod       : y = k mod n                       (rand() % n with a 32-bit source)
  * n = 1.5 * 2^30 (worst-case region; heavy-value test needs ~251 samples for mult).
  *
+ * Dithered variants (suffix _d): u = (y + V) / n with V = k' / 2^32 from the next MT19937 output.
+ * If y is uniform on {0..n-1}, u is uniform on [0,1) at 32-bit resolution, so the battery sees only the bias
+ * of y, not the coarse lattice of y / n (which has ~30.6 bits and fails bit-level tests even for rejection).
+ *
  * Build (after installing TestU01 in $TU):
  *   cc -O2 -I$TU/include convert_battery.c -L$TU/lib -ltestu01 -lprobdist -lmylib -lm -o convert_battery
- * Run:  ./convert_battery <raw|rejection|mult|mod> <small|crush>
+ * Run:  ./convert_battery <raw|rejection|mult|mod|rejection_d|mult_d|mod_d> <small|crush>
  * Self-check of the MT19937 code without TestU01:  cc -O2 -DSELFTEST convert_battery.c -o selftest && ./selftest
  */
 #include <stdint.h>
@@ -74,6 +78,20 @@ static double gen_mod(void) {
     return (double)y / (double)N_RANGE;
 }
 
+static uint64_t (*int_conv)(void);
+static uint64_t y_rejection(void) {
+    const uint64_t W = 4294967296u, limit = W - (W % N_RANGE);
+    uint64_t k;
+    do { k = mt_next(); } while (k >= limit);
+    return k % N_RANGE;
+}
+static uint64_t y_mult(void) { return ((uint64_t)mt_next() * N_RANGE) >> 32; }
+static uint64_t y_mod(void) { return (uint64_t)mt_next() % N_RANGE; }
+static double gen_dithered(void) {
+    uint64_t y = int_conv();
+    return ((double)y + mt_next() / 4294967296.0) / (double)N_RANGE;
+}
+
 #ifdef SELFTEST
 int main(void) {
     mt_seed(5489u);
@@ -81,6 +99,11 @@ int main(void) {
     mt_seed(2026u);
     for (int i = 0; i < 5; i++) printf("%u ", mt_next());
     printf("\n");
+    /* dithered rejection: mean and fraction below 1/3 over 10^7 draws (expect 0.5 and 0.3333) */
+    int_conv = y_rejection; mt_seed(2026u);
+    double s1 = 0; long lo = 0;
+    for (long i = 0; i < 10000000; i++) { double u = gen_dithered(); s1 += u; lo += u < 1.0 / 3; if (u < 0 || u >= 1) return 2; }
+    printf("dithered rejection: mean %.5f, P(u<1/3) %.5f\n", s1 / 1e7, lo / 1e7);
     return 0;
 }
 #else
@@ -88,12 +111,15 @@ int main(void) {
 #include "bbattery.h"
 
 int main(int argc, char **argv) {
-    if (argc < 3) { fprintf(stderr, "usage: convert_battery <raw|rejection|mult|mod> <small|crush>\n"); return 1; }
+    if (argc < 3) { fprintf(stderr, "usage: convert_battery <raw|rejection|mult|mod|rejection_d|mult_d|mod_d> <small|crush>\n"); return 1; }
     double (*f)(void) = NULL;
     if (!strcmp(argv[1], "raw")) f = gen_raw;
     else if (!strcmp(argv[1], "rejection")) f = gen_rejection;
     else if (!strcmp(argv[1], "mult")) f = gen_mult;
     else if (!strcmp(argv[1], "mod")) f = gen_mod;
+    else if (!strcmp(argv[1], "rejection_d")) { int_conv = y_rejection; f = gen_dithered; }
+    else if (!strcmp(argv[1], "mult_d")) { int_conv = y_mult; f = gen_dithered; }
+    else if (!strcmp(argv[1], "mod_d")) { int_conv = y_mod; f = gen_dithered; }
     if (!f) { fprintf(stderr, "unknown generator %s\n", argv[1]); return 1; }
     mt_seed(2026u);
     unif01_Gen *g = unif01_CreateExternGen01(argv[1], f);
