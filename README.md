@@ -23,7 +23,7 @@ samples. Details and the status of every claim: [`docs/METHODOLOGY.md`](docs/MET
 | Method | heavy-value test, N = 1,000 | χ² (1,000 classes), N = 100,000 |
 |---|---|---|
 | `Rounding` (R ≤ 3.5) | p ≈ 10⁻⁵ (detected) | p = 0.93 (not detected) |
-| `Rejection` (R ≥ 3.6) | p = 0.11 | p = 0.54 |
+| `Rejection` (R ≥ 3.6) | p = 0.11 | p = 0.53 |
 
 ### All languages, n = 1.5·2^30, N = 100,000 (`results/linux-cloud/summary.csv`)
 
@@ -83,10 +83,25 @@ concentrated at the start of the range and χ² with few classes detects it.
 
 ![N* as a function of n for different word sizes](figures/fig2_nstar_map.png)
 
+### Standard battery (E7): TestU01 SmallCrush, n = 1.5·2^30, MT19937 seed 2026 (`results/mac-va/testu01`)
+
+| Generator | u = y / n (direct) | u = (y + V) / n (dithered) |
+|---|---|---|
+| raw MT19937 (control) | 0 of 15 failed | — |
+| `rejection` (correct) | **8 failed** (artefact) | 0 failed |
+| `mult` (`floor(n·U)`) | 8 failed | 9 failed |
+| `mod` (`k mod n`) | 12 failed | 7 failed |
+
+Feeding y / n directly makes even the correct conversion fail: y / n has only ~30.6 bits and TestU01 reads 32, so
+the bit-level tests see the lattice, not the bias. With dithering (V uniform from the next output) the correct
+conversion passes and both biased conversions fail. `mod` fails tests on the coarse distribution (MaxOft,
+RandomWalk1); `mult` fails only tests that read low-order bits (Gap, SimpPoker, CouponCollector, HammingIndep,
+WeightDistrib), because its heavy values repeat with period 3 (y = ⌊3k/8⌋) and equal-width classes average them out.
+
 ### Still to run
 
 - E5: Excel (`RANDBETWEEN`, `INT(RAND()*n)`, resolution of `RAND()`) on Windows and macOS.
-- E7: TestU01 SmallCrush/Crush on the raw generator and on three conversions (`sh scripts/run_testu01.sh <source-id>`).
+- E7: Crush (overnight) and a w = 53 case where the bias is below the detection limit.
 
 ## Layout
 
