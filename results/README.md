@@ -29,6 +29,9 @@ results/<source-id>/
 | `windows-va` | V. Astafi | `scripts\run_local.bat windows-va` |
 | `excel-win-va`, `excel-mac-va` | V. Astafi | `src/languages/excel/PROTOCOL.md` |
 
+Comparația a două surse cu același seed: `python scripts/compare_sources.py <a> <b>` →
+`results/reproducibility_<a>_vs_<b>.csv`.
+
 Dacă pe o sursă nu există Python, scriptul scrie `environment.txt` în loc de `environment.json`; Claude îl
 convertește la import, ca toate sursele să aibă același format.
 

@@ -1,0 +1,12 @@
+source,file,role,method,w,n,N,Nstar,frac_heavy,p_heavy_uniform,p_heavy_biased,p_heavy_test,p_chi2_B10,note
+mac-va,c_randmod_n1610612736_N100000_seed2026.txt.gz,idiom rand() % n,mod,31,1610612736,100000,62.8,0.5003,0.33333,0.5,0,0,N >= N*: un bias de acest tip ar fi detectat
+mac-va,c_randmod_n20000_N100000_seed2026.txt.gz,idiom rand() % n,mod,31,20000,100000,6.07e+11,0.18008,0.1824,0.1824,0.0575,0.712,N < N*: bias prea mic pentru acest N
+mac-va,java_intdouble_n1610612736_N100000_seed2026.txt.gz,idiom (long)(nextDouble()*n),mult,53,1610612736,100000,1.1e+15,0.33197,0.33333,0.33333,0.362,0.885,N < N*: bias prea mic pentru acest N
+mac-va,java_nextint_n1610612736_N100000_seed2026.txt.gz,control,mod,31,1610612736,100000,62.8,0.33214,0.33333,0.5,0.425,0.353,N >= N*: un bias de acest tip ar fi detectat
+mac-va,js_cryptorandint_n1610612736_N100000_noseed.txt.gz,control,mod,48,1610612736,100000,1.08e+12,0.66751,0.66667,0.66667,0.573,0.813,N < N*: bias prea mic pentru acest N
+mac-va,js_floorrandom_n1610612736_N100000_noseed.txt.gz,idiom Math.floor(Math.random()*n),mult,52,1610612736,100000,2.76e+14,0.66461,0.66667,0.66667,0.168,0.452,N < N*: bias prea mic pentru acest N
+mac-va,python_intrandom_n1610612736_N100000_seed2026.txt.gz,idiom int(random()*n),mult,53,1610612736,100000,1.1e+15,0.3347,0.33333,0.33333,0.36,0.238,N < N*: bias prea mic pentru acest N
+mac-va,python_numpy_n1610612736_N100000_seed2026.txt.gz,control,mult,53,1610612736,100000,1.1e+15,0.33558,0.33333,0.33333,0.132,0.91,N < N*: bias prea mic pentru acest N
+mac-va,python_randrange_n1610612736_N100000_seed2026.txt.gz,control,mult,53,1610612736,100000,1.1e+15,0.3317,0.33333,0.33333,0.274,0.723,N < N*: bias prea mic pentru acest N
+mac-va,r_Rejection_n1610612736_N100000_seed2026.txt.gz,control (R >= 3.6),mult,32,1610612736,100000,251,0.66788,0.66667,0.75,0.417,0.155,N >= N*: un bias de acest tip ar fi detectat
+mac-va,r_Rounding_n1610612736_N100000_seed2026.txt.gz,biased (R <= 3.5),mult,32,1610612736,100000,251,0.74878,0.66667,0.75,0,0.82,N >= N*: un bias de acest tip ar fi detectat

@@ -38,6 +38,17 @@ eșantioane. Detalii și statutul fiecărei afirmații: [`docs/METODOLOGIE.md`](
 | Python `int(random()*n)`, Java `(long)(nextDouble()*n)` | 53 | 1,1·10¹⁵ | 0,36; 0,36 | bias există, nedetectabil practic |
 | JS `Math.floor(Math.random()*n)` | 52 | 2,8·10¹⁴ | 0,92 | bias există, nedetectabil practic |
 
+**Reproductibilitate Linux (glibc, libstdc++) vs. macOS arm64 (libc, libc++), același seed**
+(`results/reproducibility_linux-cloud_vs_mac-va.csv`)
+
+| Funcție | Identic pe ambele sisteme? |
+|---|---|
+| C++ `std::uniform_int_distribution` cu `mt19937` | **nu, diferă de la prima valoare** (libstdc++ vs. libc++) |
+| C `rand() % n` | nu (algoritmi `rand()` diferiți) |
+| R `sample()` (ambele metode), Python `random` și numpy, Java `Random` | da, toate cele 100 000 de valori |
+
+Concluziile despre bias sunt aceleași pe Linux și pe Mac (`results/mac-va/summary.csv`).
+
 **Puterea testelor la N = 4·N\*** (α = 0,05, 400 de repetări; valori medii pe 4 valori ale lui n)
 
 | Metoda | test pe valori grele | χ² B=10 | χ² B=100 | χ² B=1 000 | χ² B=10 000 |
