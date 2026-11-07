@@ -58,7 +58,7 @@ clase. Pentru `mod`, valorile grele sunt grupate la început, iar χ² cu puțin
 | E3 | Date reale din limbaje (R vechi/nou, C, C++, Python, Java, JS) | `src/languages/*` |
 | E4 | Reproductibilitatea: același seed pe implementări C++ diferite | `src/languages/cpp` (Linux libstdc++, Mac libc++) |
 | E5 | Excel ca „cutie neagră”: `RANDBETWEEN`, `INT(RAND()*n)`, rezoluția lui `RAND()` | `src/languages/excel` (Windows, Mac) |
-| E6 | Efect practic: Fisher–Yates cu metoda deplasată vs. corectă | de implementat |
+| E6 | Efect practic: tragere la sorți cu `rand() % m` (Windows vs. Linux/Mac) | `src/practical/raffle.py` |
 | E7 | Dacă TestU01 prinde biasul după conversie | de implementat |
 
 Valori n: uzuale (6, 10, 52, 100, 1 000) și cu bias mare (r(n−r) mare, aproape de 2^w / 1,5).

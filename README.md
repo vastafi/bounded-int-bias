@@ -52,6 +52,15 @@ coincide cu Linux, iar R, Python și Java dau aceleași 100 000 de valori pe x86
 Pe Windows, `rand() % n` are bias mare deja la n = 20 000 (N* ≈ 91; p ≈ 0), iar pentru n = 1,5·2^30 produce doar
 valori sub 32 768: aproape tot intervalul cerut nu apare niciodată.
 
+**Efect practic (E6): tragere la sorți între m participanți cu `rand() % m`** (`results/linux-cloud/practical/raffle.csv`;
+modelul exact al `rand()` din Windows, validat pe toate cele 100 000 de valori din `results/windows-va`)
+
+| m | Windows (15 biți) | Linux/Mac (31 de biți) |
+|---|---|---|
+| 1 000 | primii 768 participanți au șanse cu 3,1% mai mari | diferență ≈ 0 |
+| 20 000 | primii 12 768 participanți au șanse **de 2 ori mai mari**; 64% dintre participanți iau 78% din câștiguri | raport 1,000009 |
+| 50 000 | **17 232 de participanți (34%) nu pot câștiga niciodată** | raport 1,000023 |
+
 **Puterea testelor la N = 4·N\*** (α = 0,05, 400 de repetări; valori medii pe 4 valori ale lui n)
 
 | Metoda | test pe valori grele | χ² B=10 | χ² B=100 | χ² B=1 000 | χ² B=10 000 |
