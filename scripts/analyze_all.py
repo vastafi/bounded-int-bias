@@ -24,8 +24,10 @@ RULES = [
     ("js_floorrandom", "mult", 52, "idiom Math.floor(Math.random()*n)"),
     ("js_cryptorandint", "mod", 48, "control"),
     ("c_randmod", "mod", None, "idiom rand() % n"),      # w from rand_max.txt
-    ("excel_randbetween", "mult", 32, "RANDBETWEEN (provisional w)"),
-    ("excel_intrand", "mult", 32, "INT(RAND()*n) (provisional w)"),
+    # RAND() lies on the 2^-53 grid with non-uniform low bits (sheet 'bits'): effective resolution 48-53 bits;
+    # w = 48 is the conservative (most detectable) choice
+    ("excel_randbetween", "mult", 48, "RANDBETWEEN (w >= 48)"),
+    ("excel_intrand", "mult", 48, "INT(RAND()*n) (w >= 48)"),
 ]
 
 
