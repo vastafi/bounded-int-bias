@@ -76,6 +76,9 @@ def main():
             "note": "N >= N*: a bias of this structure would be detected" if n_star(n, w) <= len(ys) else "N < N*: bias too small for this N",
         })
         rows.append(row)
+    if not rows:
+        sys.exit(f"No sample files found under {root}/. Put them in {root}/<language>-sample/ "
+                 "(Excel: see src/languages/excel/PROTOCOL.md).")
     out = os.path.join(root, "summary.csv")
     fields = ["source", "file", "role", "method", "w", "n", "N", "Nstar", "frac_heavy", "p_heavy_uniform",
               "p_heavy_biased", "p_heavy_test", "p_chi2_B10", "note"]

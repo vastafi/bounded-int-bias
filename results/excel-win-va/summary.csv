@@ -1,0 +1,3 @@
+source,file,role,method,w,n,N,Nstar,frac_heavy,p_heavy_uniform,p_heavy_biased,p_heavy_test,p_chi2_B10,note
+excel-win-va,excel_intrand_n1610612736_N100000.txt,INT(RAND()*n) (provisional w),mult,32,1610612736,100000,251,0.66466,0.66667,0.75,0.179,0.124,N >= N*: a bias of this structure would be detected
+excel-win-va,excel_randbetween_n1610612736_N100000.txt,RANDBETWEEN (provisional w),mult,32,1610612736,100000,251,0.66687,0.66667,0.75,0.893,0.898,N >= N*: a bias of this structure would be detected
