@@ -40,6 +40,10 @@ samples. Details and the status of every claim: [`docs/METHODOLOGY.md`](docs/MET
 
 The same conclusions hold on macOS and Windows (`results/mac-va/summary.csv`, `results/windows-va/summary.csv`).
 
+Multiple testing (`python3 scripts/multiple_testing.py` -> `results/multiple_testing.csv`): over all 80 tests of
+the audit, Holm and Benjamini-Hochberg at 0.05 reject the same 9, all with p < 10^-15, and for the heavy-value test
+the decision matches the prediction (biased function and N >= N*) in 40 of 40 cases.
+
 ### Reproducibility on three systems, same seed (`results/reproducibility_*.csv`)
 
 | Function | Linux x86-64 (glibc, libstdc++) | macOS arm64 (libc, libc++) | Windows x86-64, Pentium (MinGW: libstdc++) |
@@ -129,7 +133,7 @@ src/languages/<language>/   generators: C, C++, R, Python, Java, JavaScript; Exc
 src/practical/              E6: raffle with rand() % m; exact model of the Windows rand()
 src/testu01/                E7: TestU01 harness
 scripts/                    run_local.sh / .bat, run_testu01.sh, analyze_all.py, compare_sources.py, import_excel_csv.py,
-                            excel_rand_bits.py, summarize_testu01.py, make_figures.py, check_repo.py
+                            excel_rand_bits.py, summarize_testu01.py, multiple_testing.py, make_figures.py, check_repo.py
 results/<source-id>/        data and results, one folder per source (see results/README.md)
 figures/                    article figures (PDF + PNG)
 tests/                      exhaustive checks of the theory
@@ -166,7 +170,10 @@ python3 src/practical/raffle.py results/mac-yourname/practical
 # 7. Figures (read results/linux-cloud/power/power.csv) -> figures/
 python3 scripts/make_figures.py
 
-# 8. Check that every expected result file is present and nothing stray is tracked
+# 8. Multiple-testing correction over every source -> results/multiple_testing.csv
+python3 scripts/multiple_testing.py
+
+# 9. Check that every expected result file is present and nothing stray is tracked
 python3 scripts/check_repo.py
 ```
 
