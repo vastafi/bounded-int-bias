@@ -10,10 +10,11 @@ Excel has no seed, so every run is a new source. Record the exact version (File 
 3. Convert it into the three sample files below:
    `python3 scripts/import_excel_csv.py path/to/E5.csv excel-win-va` (on macOS: `excel-mac-va`).
 4. Fill in `environment.json` (see below) and run the analysis.
-5. Resolution of `RAND()`: read the sheet **bits** of the workbook (before closing it). It gives, for k = 24 … 53,
-   the share of 10,000 `RAND()` values that are multiples of 2^-k, computed by Excel in double precision. The
-   resolution is the smallest k with share 1. Copy the table into `results/<source-id>/excel-sample/rand_bits.txt`.
-   (The CSV keeps only about 10 significant digits on macOS, so `rand_resolution.py` cannot resolve more than ~30 bits.)
+5. Resolution of `RAND()`: also save the workbook itself (File → Save, `.xlsx`). Excel stores the exact doubles, and
+   `python3 scripts/excel_rand_bits.py path/to/E5_template.xlsx <source-id>` writes `excel_rand_exact_N100000.txt`
+   and `rand_bits.txt` (how many fixed-point bits the values use, against the 53-bit uniform expectation).
+   Do not test the bits inside Excel with "=": Excel compares with about 15 significant digits, which makes
+   values look coarser than they are. The CSV keeps only about 10 significant digits on macOS.
 
 The manual steps E5a–E5c below give the same files.
 

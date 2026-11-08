@@ -1,0 +1,13 @@
+100000 RAND() values from fb3c8474-1794124180662_E5_template.xlsx; maximum fixed-point bits B = 53
+bits d  observed share  expected share if u = k/2^B, k uniform
+    53         0.50043         0.50000
+    52         0.25210         0.25000
+    51         0.12134         0.12500
+    50         0.06327         0.06250
+    49         0.03169         0.03125
+    48         0.01535         0.01562
+    47         0.00783         0.00781
+    46         0.00422         0.00391
+    45         0.00210         0.00195
+    44         0.00082         0.00098
+share that are multiples of 2^-48: 0.03117 (expected 0.03125)
