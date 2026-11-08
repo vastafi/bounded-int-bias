@@ -47,4 +47,4 @@ results/excel-win-va/                 (on macOS: results/excel-mac-va/)
 ```
 
 Analysis, with the same script as for every other source:
-`python scripts/analyze_all.py excel-win-va` (w is adjusted after E5c).
+`python3 scripts/analyze_all.py excel-win-va`.

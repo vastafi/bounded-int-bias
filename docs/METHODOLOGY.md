@@ -73,7 +73,7 @@ Each run is made on a **source** identified by a `source-id` (e.g. `linux-cloud`
    writes `results/<source-id>/environment.json` (system, versions, CPU, date).
 2. Raw data go to `results/<source-id>/<experiment>/`, compressed to `.gz` when large; file names contain the
    method, n, N and the seed.
-3. The same analysis is applied to every source: `python scripts/analyze_all.py <source-id>`.
+3. The same analysis is applied to every source: `python3 scripts/analyze_all.py <source-id>`.
 4. Results are never edited by hand. A faulty run is redone, not corrected.
 
 ## 7. Reproducibility

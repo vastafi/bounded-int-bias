@@ -101,10 +101,23 @@ RandomWalk1); `mult` fails only tests that read low-order bits (Gap, SimpPoker, 
 WeightDistrib), because its heavy values repeat with period 3 (y = ⌊3k/8⌋) and equal-width classes average them out.
 With a 53-bit source both conversions pass, as predicted by N* ≈ 1.1·10¹⁵.
 
-### Still to run
+### Excel (E5): `RANDBETWEEN` and `INT(RAND()*n)`, n = 1.5·2^30 (`results/excel-*-va`)
 
-- E5: Excel (`RANDBETWEEN`, `INT(RAND()*n)`, resolution of `RAND()`) on Windows and macOS.
-- E7: Crush (overnight).
+`RAND()` returns k / 2^53 with k uniform on both systems (exact values stored in the `.xlsx` file;
+`scripts/excel_rand_bits.py`), so N* ≈ 1.1·10^15 and the bias cannot be seen with 10^5 values.
+Two independent samples of 100,000 values per function and system; p-values of the heavy-value test:
+
+| | `INT(RAND()*n)` | `RANDBETWEEN` |
+|---|---|---|
+| Excel for Mac 16.114.4 (macOS 27.2, arm64) | 0.023 / 0.99 | 0.95 / 0.33 |
+| Excel 2019 16.0.13001 (Windows 10, x86-64) | 0.85 / 0.32 | 0.40 / 0.78 |
+
+Two of the 16 Excel p-values (heavy-value test and χ² with 10 classes) are below 0.05; the independent second
+samples of the same cases give 0.99 and 0.25, as expected for chance fluctuations when N/N* ≈ 10^-10.
+
+### Not yet run
+
+- E7: TestU01 Crush (several hours; `sh scripts/run_testu01.sh <source-id> crush`).
 
 ## Layout
 
@@ -112,10 +125,11 @@ With a 53-bit source both conversions pass, as predicted by N* ≈ 1.1·10¹⁵.
 src/theory/bias.py          exact formulas (heavy values, gap, N*)
 src/simulation/power.py     power of the tests by simulation
 src/analyze_sample.py       analysis of a file of values from ANY source
-src/languages/<language>/   generators: C, C++, R, Python, Java, JavaScript, Excel (protocol)
+src/languages/<language>/   generators: C, C++, R, Python, Java, JavaScript; Excel template and protocol
 src/practical/              E6: raffle with rand() % m; exact model of the Windows rand()
 src/testu01/                E7: TestU01 harness
-scripts/                    run_local.sh / .bat, analyze_all.py, compare_sources.py, record_env.py, make_figures.py
+scripts/                    run_local.sh / .bat, run_testu01.sh, analyze_all.py, compare_sources.py, import_excel_csv.py,
+                            excel_rand_bits.py, summarize_testu01.py, make_figures.py, check_repo.py
 results/<source-id>/        data and results, one folder per source (see results/README.md)
 figures/                    article figures (PDF + PNG)
 tests/                      exhaustive checks of the theory
@@ -124,19 +138,63 @@ docs/                       methodology, literature, bibliography
 
 ## How to reproduce
 
+Requirements: Python 3.9+ (on macOS and Linux the command is `python3`; on Windows `py` or `python`), a C/C++
+compiler, and optionally R, Java 17+ and Node.js. Run every command from the repository root. Lines starting with
+`#` are comments; copy only the commands.
+
 ```bash
-pip install -r requirements.txt
-python -m pytest -q tests                          # theory, exhaustive for w = 6, 8, 10
-sh scripts/run_local.sh <source-id>                # macOS / Linux: all languages found on the machine
-scripts\run_local.bat <source-id>                  # Windows
-python scripts/analyze_all.py <source-id>          # -> results/<source-id>/summary.csv
-python scripts/compare_sources.py <a> <b>          # same-seed reproducibility
-python src/simulation/power.py --out results/<source-id>/power --bins 10 100 1000 10000
-python src/practical/raffle.py results/<source-id>/practical
-python scripts/make_figures.py                     # -> figures/
+# 1. Python packages
+python3 -m pip install -r requirements.txt
+
+# 2. Theory: exhaustive checks for w = 6, 8, 10
+python3 -m pytest -q tests
+
+# 3. Generate samples with every language found on this machine (pick a source id, e.g. mac-yourname)
+sh scripts/run_local.sh mac-yourname
+#    on Windows instead:  scripts\run_local.bat windows-yourname
+
+# 4. Analyse the samples -> results/<source-id>/summary.csv
+python3 scripts/analyze_all.py mac-yourname
+
+# 5. Same-seed reproducibility between two sources -> results/reproducibility_<a>_vs_<b>.csv
+python3 scripts/compare_sources.py linux-cloud mac-yourname
+
+# 6. Power of the tests by simulation (a few minutes) and the raffle example
+python3 src/simulation/power.py --out results/mac-yourname/power --bins 10 100 1000 10000
+python3 src/practical/raffle.py results/mac-yourname/practical
+
+# 7. Figures (read results/linux-cloud/power/power.csv) -> figures/
+python3 scripts/make_figures.py
+
+# 8. Check that every expected result file is present and nothing stray is tracked
+python3 scripts/check_repo.py
 ```
 
-Excel: `src/languages/excel/PROTOCOL.md`. Rules for results: `results/README.md`.
+### TestU01 (E7, macOS or Linux)
+
+```bash
+# downloads and builds TestU01 in ~/testu01 once, then runs SmallCrush on 9 generators (a few minutes)
+sh scripts/run_testu01.sh mac-yourname
+python3 scripts/summarize_testu01.py mac-yourname
+```
+
+### Excel (E5, Windows or macOS)
+
+1. Open `src/languages/excel/E5_template.xlsx` in Excel. It holds 100,000 rows of `RANDBETWEEN`, `INT(RAND()*n)`
+   and `RAND()`.
+2. Save it as **CSV** (`E5.csv`) and also save the workbook itself (`.xlsx`); both keep the generated values.
+3. Then:
+
+```bash
+python3 scripts/import_excel_csv.py path/to/E5.csv excel-mac-yourname
+python3 scripts/excel_rand_bits.py path/to/E5_template.xlsx excel-mac-yourname
+python3 scripts/analyze_all.py excel-mac-yourname
+```
+
+4. Copy `src/languages/excel/environment_template.json` to `results/excel-mac-yourname/environment.json` and fill
+   in the Excel version (Excel → About Excel on macOS; File → Account → About Excel on Windows).
+
+Details: `src/languages/excel/PROTOCOL.md`. Rules for results folders: `results/README.md`.
 
 ## License
 

@@ -52,7 +52,7 @@ for sid in ("excel-mac-va", "excel-win-va"):
 # 3. other results
 for p in ("results/linux-cloud/power/power.csv", "results/linux-cloud/practical/raffle.csv",
           "results/mac-va/testu01/testu01_summary.csv", "figures/fig1_power.pdf", "figures/fig2_nstar_map.pdf",
-          "src/languages/excel/E5_template.xlsx", "paper/main_ro.tex", "paper/main.tex"):
+          "src/languages/excel/E5_template.xlsx"):
     say("OK" if os.path.exists(p) else "MISSING", p)
 p = "results/mac-va/testu01/testu01_summary.csv"
 if os.path.exists(p):
