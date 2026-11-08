@@ -16,7 +16,8 @@ C = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]   # validated catego
 MK = ["o", "s", "^", "D", "v"]                                 # secondary encoding (CVD / print)
 plt.rcParams.update({"font.size": 9, "axes.edgecolor": MUTED, "axes.labelcolor": INK, "xtick.color": MUTED,
                      "ytick.color": MUTED, "axes.spines.top": False, "axes.spines.right": False,
-                     "legend.frameon": False, "lines.linewidth": 1.6, "savefig.bbox": "tight"})
+                     "legend.frameon": False, "lines.linewidth": 1.6, "savefig.bbox": "tight",
+                     "pdf.fonttype": 42, "ps.fonttype": 42})
 
 
 def save(fig, name):
