@@ -1,3 +1,0 @@
-source,file,role,method,w,n,N,Nstar,frac_heavy,p_heavy_uniform,p_heavy_biased,p_heavy_test,p_chi2_B10,note
-excel-ma-va,excel_intrand_n1610612736_N100000.txt,INT(RAND()*n) (w >= 48),mult,48,1610612736,100000,1.08e+12,0.66466,0.66667,0.66667,0.179,0.124,N < N*: bias too small for this N
-excel-ma-va,excel_randbetween_n1610612736_N100000.txt,RANDBETWEEN (w >= 48),mult,48,1610612736,100000,1.08e+12,0.66687,0.66667,0.66667,0.893,0.898,N < N*: bias too small for this N

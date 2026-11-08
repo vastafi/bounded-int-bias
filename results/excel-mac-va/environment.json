@@ -1,0 +1,10 @@
+{
+  "source_id": "excel-mac-va",
+  "recorded_utc": "2026-11-08T08:00:00+00:00",
+  "os": "macOS 27.2 (arm64), same machine as mac-va",
+  "cpu": "Apple Silicon (arm64)",
+  "excel_version": "Microsoft Excel for Mac 16.114.4 (26110224), Microsoft 365 subscription",
+  "integer_samples": "E5_template.xlsx saved as CSV, scripts/import_excel_csv.py",
+  "rand_resolution": "E5_template.xlsx saved by Excel for Mac; scripts/excel_rand_bits.py",
+  "note": "filled in by hand"
+}
