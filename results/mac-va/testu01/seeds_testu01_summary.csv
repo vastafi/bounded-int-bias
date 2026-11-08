@@ -1,0 +1,31 @@
+generator,battery,statistics,complete,n_failed,failed_tests,p_values
+mod53_d_seed1,smallcrush,15,True,0,,0.02 0.25 0.75 0.94 0.28 0.91 0.17 0.29 0.13 0.47 0.25 0.66 0.94 0.50 0.86
+mod53_d_seed2,smallcrush,15,True,0,,0.61 0.74 0.61 0.39 0.61 0.76 0.40 0.38 0.10 0.27 0.70 0.65 0.54 0.34 0.30
+mod53_d_seed3,smallcrush,15,True,0,,0.08 0.07 0.68 0.55 0.35 0.30 0.16 0.35 0.03 0.70 0.35 0.12 0.96 0.93 0.56
+mod53_d_seed4,smallcrush,15,True,0,,0.96 0.98 0.32 0.62 0.84 0.21 0.24 0.97 0.92 0.99 0.9945 0.9924 0.22 0.47 0.81
+mod53_d_seed5,smallcrush,15,True,0,,0.25 0.20 0.13 0.29 0.16 0.59 0.17 0.13 0.89 0.81 0.55 0.38 0.54 0.59 0.56
+mod_d_seed1,smallcrush,15,True,8,Collision 4.6e-6; MaxOft eps; MaxOft AD 1 - eps1; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps; RandomWalk1 R eps; RandomWalk1 C eps,0.38 4.6e-6 0.37 0.75 0.78 eps 1 - eps1 0.19 0.06 0.73 eps eps eps eps eps
+mod_d_seed2,smallcrush,15,True,8,Collision 7.0e-6; MaxOft eps; MaxOft AD 1 - eps1; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps; RandomWalk1 R eps; RandomWalk1 C eps,0.53 7.0e-6 0.65 0.91 0.64 eps 1 - eps1 0.14 0.82 3.8e-3 eps eps eps eps eps
+mod_d_seed3,smallcrush,15,True,7,MaxOft eps; MaxOft AD 1 - eps1; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps; RandomWalk1 R eps; RandomWalk1 C eps,0.75 0.03 0.13 0.41 0.83 eps 1 - eps1 0.76 0.26 0.77 eps eps eps eps eps
+mod_d_seed4,smallcrush,15,True,8,Collision 5.6e-4; MaxOft eps; MaxOft AD 1 - eps1; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps; RandomWalk1 R eps; RandomWalk1 C eps,0.53 5.6e-4 0.66 0.33 0.16 eps 1 - eps1 0.06 0.88 0.87 eps eps eps eps eps
+mod_d_seed5,smallcrush,15,True,8,Collision 1.1e-4; MaxOft eps; MaxOft AD 1 - eps1; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps; RandomWalk1 R eps; RandomWalk1 C eps,0.61 1.1e-4 0.23 0.60 0.71 eps 1 - eps1 0.44 0.14 0.78 eps eps eps eps eps
+mult53_d_seed1,smallcrush,15,True,0,,0.31 0.39 0.06 0.9902 0.61 0.88 0.93 0.66 0.32 0.14 0.34 0.50 0.22 0.33 0.03
+mult53_d_seed2,smallcrush,15,True,0,,0.81 0.77 0.48 0.26 0.39 0.39 0.88 0.26 0.06 0.39 0.49 0.12 0.76 0.10 0.88
+mult53_d_seed3,smallcrush,15,True,0,,0.31 0.47 0.10 0.82 0.75 0.69 0.75 0.81 0.93 0.08 0.33 0.64 0.44 0.94 0.70
+mult53_d_seed4,smallcrush,15,True,0,,0.38 0.59 0.61 0.56 0.99 0.15 0.70 0.52 0.93 0.9901 0.89 0.69 0.75 0.86 0.41
+mult53_d_seed5,smallcrush,15,True,0,,0.53 0.83 0.44 0.84 0.39 0.46 0.83 0.62 0.70 0.34 0.78 0.78 0.41 0.9942 0.43
+mult_d_seed1,smallcrush,15,True,8,Gap eps; SimpPoker eps; CouponCollector eps; WeightDistrib eps; HammingIndep eps; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps,0.81 0.10 eps eps eps 0.22 0.66 eps 0.12 eps eps eps eps 0.31 0.67
+mult_d_seed2,smallcrush,15,True,8,Gap eps; SimpPoker eps; CouponCollector eps; WeightDistrib eps; HammingIndep eps; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps,0.38 0.08 eps eps eps 0.47 0.07 eps 0.76 eps eps eps eps 0.84 0.17
+mult_d_seed3,smallcrush,15,True,8,Gap eps; SimpPoker eps; CouponCollector eps; WeightDistrib eps; HammingIndep eps; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps,0.31 0.07 eps eps eps 0.80 0.34 eps 0.55 eps eps eps eps 0.42 0.30
+mult_d_seed4,smallcrush,15,True,8,Gap eps; SimpPoker eps; CouponCollector eps; WeightDistrib eps; HammingIndep eps; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps,0.68 0.80 eps eps eps 0.92 0.70 eps 0.99 eps eps eps eps 0.41 0.22
+mult_d_seed5,smallcrush,15,True,8,Gap eps; SimpPoker eps; CouponCollector eps; WeightDistrib eps; HammingIndep eps; RandomWalk1 H eps; RandomWalk1 M eps; RandomWalk1 J eps,0.53 0.99 eps eps eps 0.93 0.86 eps 0.14 eps eps eps eps 0.34 0.72
+raw_seed1,smallcrush,15,True,0,,0.86 0.96 0.97 0.74 0.72 0.72 0.48 0.01 0.80 0.33 0.49 0.70 0.18 0.54 0.51
+raw_seed2,smallcrush,15,True,0,,0.11 0.57 0.79 0.63 0.53 0.36 0.24 0.16 0.98 0.86 0.47 0.36 0.18 0.22 0.47
+raw_seed3,smallcrush,15,True,0,,0.15 0.45 0.90 0.59 0.94 0.05 0.52 0.68 0.28 0.83 0.53 0.54 0.41 0.97 0.83
+raw_seed4,smallcrush,15,True,0,,0.68 0.37 0.85 0.17 0.34 0.67 0.87 0.70 0.33 0.99 0.03 1.1e-3 0.25 0.96 0.03
+raw_seed5,smallcrush,15,True,0,,0.86 0.82 0.06 0.06 0.27 0.69 0.40 0.54 0.50 0.56 0.74 0.63 0.21 0.70 0.04
+rejection_d_seed1,smallcrush,15,True,0,,0.08 0.08 0.08 0.15 0.56 0.31 0.67 0.69 0.93 0.28 0.40 0.63 0.82 0.62 0.26
+rejection_d_seed2,smallcrush,15,True,0,,0.06 0.33 0.11 0.02 0.47 0.32 0.84 0.95 0.94 0.56 0.32 0.87 0.33 0.30 0.96
+rejection_d_seed3,smallcrush,15,True,0,,0.90 0.69 0.80 0.44 0.46 0.94 0.89 0.80 0.22 0.94 0.50 0.47 0.44 0.9926 0.69
+rejection_d_seed4,smallcrush,15,True,0,,0.03 0.09 0.33 0.02 0.76 0.44 0.79 0.37 0.22 0.12 0.47 0.12 0.9986 0.11 0.54
+rejection_d_seed5,smallcrush,15,True,0,,0.75 0.91 0.24 0.73 0.45 0.52 0.54 0.19 0.44 0.89 0.18 0.52 0.25 0.56 0.41

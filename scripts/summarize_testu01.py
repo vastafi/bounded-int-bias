@@ -20,7 +20,7 @@ for f in sorted(glob.glob(f"results/{sid}/testu01/{sub + '/' if sub else ''}*_*.
     pvals = re.findall(r"p-value of test\s*:\s*(\S+(?:\s*-\s*\S+)?)", text)
     rows.append({"generator": gen, "battery": battery, "statistics": m.group(1) if m else "",
                  "complete": bool(block), "n_failed": len(failed), "failed_tests": "; ".join(failed),
-                 "p_values": " ".join(v.replace(" ", "") for v in pvals)})
+                 "p_values": " ".join(re.findall(r"1 - eps1|1-eps1|eps1?|\d\.\d+(?:e-?\d+)?", " ".join(pvals)))})
 out = f"results/{sid}/testu01/{sub + '_' if sub else ''}testu01_summary.csv"
 with open(out, "w", newline="") as fh:
     wr = csv.DictWriter(fh, fieldnames=list(rows[0]))

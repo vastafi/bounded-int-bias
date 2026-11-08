@@ -125,6 +125,10 @@ conversion passes and both biased conversions fail. `mod` fails tests on the coa
 RandomWalk1); `mult` fails only tests that read low-order bits (Gap, SimpPoker, CouponCollector, HammingIndep,
 WeightDistrib), because its heavy values repeat with period 3 (y = ⌊3k/8⌋) and equal-width classes average them out.
 With a 53-bit source both conversions pass, as predicted by N* ≈ 1.1·10¹⁵.
+The dithered results are stable over six seeds (2026 and 1–5, `results/mac-va/testu01/seeds`,
+`sh scripts/run_testu01_seeds.sh <source-id>`): `mult` is rejected by the same 8 statistics (9 at one seed),
+`mod` by the same 7 (8 at four seeds), and the raw generator, the dithered rejection and both 53-bit conversions
+pass every statistic in every run.
 
 ### Excel (E5): `RANDBETWEEN` and `INT(RAND()*n)`, n = 1.5·2^30 (`results/excel-*-va`)
 
