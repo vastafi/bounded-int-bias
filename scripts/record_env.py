@@ -11,7 +11,9 @@ def ver(cmd):
         return None
     try:
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
-        return (r.stdout or r.stderr).strip().splitlines()[0]
+        # skip JVM notices such as "Picked up JAVA_TOOL_OPTIONS: ..." (they can hold local proxy settings)
+        lines = [l for l in (r.stdout + "\n" + r.stderr).splitlines() if l.strip() and not l.startswith("Picked up")]
+        return lines[0].strip() if lines else None
     except Exception:
         return None
 
