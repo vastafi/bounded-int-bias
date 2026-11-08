@@ -57,3 +57,18 @@ def worst_ratio(n: int, w: int) -> float:
     """Ratio of largest to smallest output probability, (q+1)/q, when r > 0."""
     q, r = split(n, w)
     return (q + 1) / q if r else 1.0
+
+
+def heavy_mask(y, n: int, w: int, method: str):
+    """Vectorised heavy-value indicator for an integer numpy array y (values 0..n-1, n < 2^31 or y*r < 2^63).
+
+    mod : y < r.  mult: (-r*y) mod n < r  (closed form, checked exhaustively in tests/test_bias.py).
+    """
+    import numpy as np
+    q, r = split(n, w)
+    y = np.asarray(y, dtype=np.int64)
+    if method == "mod":
+        return y < r
+    if r * (n - 1) < 2**63:
+        return ((-r * y) % n) < r
+    return np.array([is_heavy(int(v), n, w, method) for v in y])

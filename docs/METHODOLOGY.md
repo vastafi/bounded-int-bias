@@ -34,9 +34,8 @@ Let q = ⌊2^w / n⌋ and r = 2^w mod n. Under `mult` and `mod`, exactly **r val
 
 **Status.** (1) and (2) are verified exhaustively for w ∈ {6, 8, 10} and all n (`tests/test_bias.py`).
 (3) is a normal approximation, checked numerically by simulation (`results/linux-cloud/power/`); a rigorous proof
-with error terms is still to be written. A targeted search found no prior publication of (3) (see
-`LITERATURE.md`); the sample-size reasoning itself is standard, so the contribution is the pooled heavy-value test
-together with the exact gap (2). The search is to be repeated in Scopus and MathSciNet before submission.
+with error terms is still to be written. The sample-size reasoning itself is standard; the
+contribution is the pooled heavy-value test together with the exact gap (2).
 
 ## 4. Statistical tests
 

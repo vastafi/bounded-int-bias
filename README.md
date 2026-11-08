@@ -73,15 +73,36 @@ produces values below 32,768: almost all of the requested range never occurs.
 
 ![Power of the heavy-value test and of chi-square](figures/fig1_power.png)
 
-At N = 4·N* (α = 0.05, 400 replications, mean over 4 values of n):
+The heavy-value test is the exact two-sided binomial test used in the audit; its power is computed exactly
+(and checked by simulation, 400 replications). At N = N* the exact power is 0.775–0.800 in all eight
+combinations. Chi-square cells are shown only where every class has an expected count of at least 5.
+
+At N = 4·N* (α = 0.05, mean over the valid values of n):
 
 | Method | heavy-value test | χ² B=10 | χ² B=100 | χ² B=1,000 | χ² B=10,000 |
 |---|---|---|---|---|---|
-| `mult` (`floor(n·U)`) | 1.00 | ≈ 0.05 | ≈ 0.04 | ≈ 0.05 | ≈ 0.05 |
-| `mod` (`k mod n`) | 1.00 | ≈ 0.99 | ≈ 0.65 | ≈ 0.18 | ≈ 0.08 |
+| `mult` (`floor(n·U)`) | 1.00 | ≈ 0.05 | ≈ 0.05 | ≈ 0.05 | ≈ 0.06 |
+| `mod` (`k mod n`) | 1.00 | ≈ 0.99 | ≈ 0.65 | ≈ 0.19 | ≈ 0.06 |
 
-For `mult`, equal-class χ² stays at the type I error level whatever the number of classes. For `mod`, the bias is
-concentrated at the start of the range and χ² with few classes detects it.
+For `mult`, every class deviates from its uniform probability by less than 2^-w, so the chi-square
+noncentrality is at most B²/(r(n−r)) times that of the heavy-value test: equal-class χ² stays at α unless B is
+comparable to n. Accuracy of N* against exact binomial power: `results/linux-cloud/nstar_accuracy.csv`
+(within 0.5% for n ≤ 0.1·2^w; up to +58% for n close to 2^w).
+
+### Without knowing w and the method, and over many n
+
+- `scripts/scan_heavy.py` tests every distinct sample against the heavy sets of all plausible (w, method),
+  with Holm within and across samples (`results/scan_heavy.csv`): of 29 distinct samples, exactly the 5 produced
+  by biased idioms with N ≥ N* are rejected; every library function passes against the 31/32-bit heavy sets.
+- `scripts/sweep_n.py` repeats the audit for n = 10², …, 10⁹ and 1.5·2^30 (`results/linux-cloud/sweep_n.csv`):
+  Holm rejects 5 of 45 tests, exactly those with N ≥ N*.
+
+### Effect on a simulation (`results/linux-cloud/practical/sampling.csv`)
+
+Simple random sample of 1,000 out of 20,000 ordered records by a partial Fisher–Yates shuffle with
+`j = t + rand() % (m − t)`, 4,000 replications: with the Windows `rand()` the sample mean is 0.439 instead of 0.5,
+a bias of 7.3 standard deviations of the estimator; a uniform 15-bit word gives the same bias, a 31-bit word and
+an unbiased reduction give none.
 
 ### Where the bias is detectable
 
@@ -126,18 +147,19 @@ samples of the same cases give 0.99 and 0.25, as expected for chance fluctuation
 ## Layout
 
 ```
-src/theory/bias.py          exact formulas (heavy values, gap, N*)
+src/theory/bias.py          exact formulas (heavy values, gap, N*); nstar_accuracy.py: N* vs exact power
 src/simulation/power.py     power of the tests by simulation
 src/analyze_sample.py       analysis of a file of values from ANY source
 src/languages/<language>/   generators: C, C++, R, Python, Java, JavaScript; Excel template and protocol
-src/practical/              E6: raffle with rand() % m; exact model of the Windows rand()
+src/practical/              E6: raffle and sampling with rand() % m; exact model of the Windows rand()
 src/testu01/                E7: TestU01 harness
 scripts/                    run_local.sh / .bat, run_testu01.sh, analyze_all.py, compare_sources.py, import_excel_csv.py,
-                            excel_rand_bits.py, summarize_testu01.py, multiple_testing.py, make_figures.py, check_repo.py
+                            excel_rand_bits.py, summarize_testu01.py, multiple_testing.py, scan_heavy.py, sweep_n.py,
+                            make_figures.py, check_repo.py
 results/<source-id>/        data and results, one folder per source (see results/README.md)
 figures/                    article figures (PDF + PNG)
 tests/                      exhaustive checks of the theory
-docs/                       methodology, literature, bibliography
+docs/                       methodology
 ```
 
 ## How to reproduce
@@ -170,8 +192,12 @@ python3 src/practical/raffle.py results/mac-yourname/practical
 # 7. Figures (read results/linux-cloud/power/power.csv) -> figures/
 python3 scripts/make_figures.py
 
-# 8. Multiple-testing correction over every source -> results/multiple_testing.csv
+# 8. Multiple testing: scan over (w, method) for every source, and the sweep over n (needs gcc and Rscript)
 python3 scripts/multiple_testing.py
+python3 scripts/scan_heavy.py
+python3 scripts/sweep_n.py mac-yourname
+python3 src/theory/nstar_accuracy.py
+python3 src/practical/sampling.py results/mac-yourname/practical
 
 # 9. Check that every expected result file is present and nothing stray is tracked
 python3 scripts/check_repo.py

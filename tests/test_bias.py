@@ -29,3 +29,15 @@ def test_gap_formula():
         for n in range(2, 2**w):
             p0, p1 = heavy_probabilities(n, w)
             assert abs((p1 - p0) - bias_gap(n, w)) < 1e-15
+
+
+def test_heavy_mask_closed_form():
+    import numpy as np
+    from src.theory.bias import heavy_mask, is_heavy
+    for w in (6, 8, 10):
+        for n in range(2, 2**w):
+            if 2**w % n == 0:
+                continue
+            ys = np.arange(n)
+            for m in ("mod", "mult"):
+                assert list(heavy_mask(ys, n, w, m)) == [is_heavy(int(y), n, w, m) for y in ys]

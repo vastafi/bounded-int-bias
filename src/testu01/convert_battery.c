@@ -17,7 +17,7 @@
  *
  * Build (after installing TestU01 in $TU):
  *   cc -O2 -I$TU/include convert_battery.c -L$TU/lib -ltestu01 -lprobdist -lmylib -lm -o convert_battery
- * Run:  ./convert_battery <raw|rejection|mult|mod|rejection_d|mult_d|mod_d|mult53_d|mod53_d> <small|crush>
+ * Run:  ./convert_battery <raw|rejection|mult|mod|rejection_d|mult_d|mod_d|mult53_d|mod53_d> <small|crush> [seed]
  * Self-check of the MT19937 code without TestU01:  cc -O2 -DSELFTEST convert_battery.c -o selftest && ./selftest
  */
 #include <stdint.h>
@@ -141,7 +141,7 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[1], "mult53_d")) { int_conv = y_mult53; f = gen_dithered; }
     else if (!strcmp(argv[1], "mod53_d")) { int_conv = y_mod53; f = gen_dithered; }
     if (!f) { fprintf(stderr, "unknown generator %s\n", argv[1]); return 1; }
-    mt_seed(2026u);
+    mt_seed(argc > 3 ? (uint32_t)strtoul(argv[3], NULL, 10) : 2026u);   /* optional seed, default 2026 */
     unif01_Gen *g = unif01_CreateExternGen01(argv[1], f);
     if (!strcmp(argv[2], "crush")) bbattery_Crush(g); else bbattery_SmallCrush(g);
     unif01_DeleteExternGen01(g);

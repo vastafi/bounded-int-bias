@@ -1,14 +1,20 @@
 """Power of the heavy-value test vs. chi-square with B equal classes.
 
+Heavy-value test = exact two-sided binomial test (scipy binomtest, the test used in the audit). Its power is
+computed exactly from the binomial distribution (power_heavy_exact) and also estimated by simulation
+(power_heavy_sim, Monte Carlo standard error mc_se). Chi-square power is reported only where every class has an
+expected count of at least 5 (N/B >= 5); otherwise the asymptotic reference distribution is not valid and the
+cell is left empty. The words are drawn with NumPy's default generator (PCG64), seed 2026.
+
 Usage:
   python -m src.simulation.power --out results/<source-id>/power --reps 400 --bins 10 100 1000 10000
 """
 import argparse, csv, json, os, sys
 import numpy as np
-from scipy.stats import norm, chi2
+from scipy.stats import binom, chi2
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
-from src.theory.bias import split, n_star, is_heavy  # noqa: E402
+from src.theory.bias import split, n_star, heavy_mask as heavy_mask_w  # noqa: E402
 
 W_BITS = 32
 W = 2**W_BITS
@@ -22,9 +28,17 @@ def sample(rng, n, N, method):
 
 
 def heavy_mask(y, n, method):
-    if method == "mod":
-        return y < split(n, W_BITS)[1]
-    return np.fromiter((is_heavy(int(v), n, W_BITS, "mult") for v in y), dtype=bool, count=len(y))
+    return heavy_mask_w(y.astype(np.int64), n, W_BITS, method)
+
+
+def binomtest_reject_set(N, p0, alpha):
+    """Boolean array over h = 0..N: True where scipy's two-sided binomtest p-value (method 'minlike') <= alpha."""
+    pmf = binom.pmf(np.arange(N + 1), N, p0)
+    order = np.sort(pmf)
+    cum = np.cumsum(order)
+    idx = np.searchsorted(order, pmf * (1 + 1e-7), side="right") - 1
+    pval = np.minimum(1.0, cum[idx])
+    return pval <= alpha
 
 
 def chi2_reject(y, n, N, B, alpha):
@@ -48,7 +62,6 @@ def main():
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     rng = np.random.default_rng(a.seed)
-    zc = norm.ppf(1 - a.alpha / 2)
     rows = []
     for n in a.n:
         q, r = split(n, W_BITS)
@@ -57,17 +70,22 @@ def main():
         for method in ("mult", "mod"):
             for f in a.factors:
                 N = max(20, int(f * ns))
+                rset = binomtest_reject_set(N, p0, a.alpha)
+                _, p1 = q, r * (q + 1) / W
+                exact = float(binom.pmf(np.arange(N + 1), N, p1)[rset].sum())
                 rej_a = 0
                 rej_c = {B: 0 for B in a.bins}
                 for _ in range(a.reps):
                     y = sample(rng, n, N, method)
                     h = heavy_mask(y, n, method).sum()
-                    rej_a += abs((h - N * p0) / np.sqrt(N * p0 * (1 - p0))) > zc
+                    rej_a += bool(rset[h])
                     for B in a.bins:
-                        rej_c[B] += chi2_reject(y, n, N, B, a.alpha)
+                        if N / B >= 5:
+                            rej_c[B] += chi2_reject(y, n, N, B, a.alpha)
                 row = {"n": n, "method": method, "N_over_Nstar": f, "N": N, "Nstar_formula": round(ns, 1),
-                       "power_heavy_test": rej_a / a.reps}
-                row.update({f"power_chi2_B{B}": rej_c[B] / a.reps for B in a.bins})
+                       "power_heavy_exact": round(exact, 4), "power_heavy_sim": rej_a / a.reps,
+                       "mc_se": round(float(np.sqrt(exact * (1 - exact) / a.reps)), 4)}
+                row.update({f"power_chi2_B{B}": (rej_c[B] / a.reps if N / B >= 5 else "") for B in a.bins})
                 rows.append(row)
                 print(row, flush=True)
     with open(os.path.join(a.out, "power.csv"), "w", newline="") as fh:
