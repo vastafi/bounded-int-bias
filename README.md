@@ -137,8 +137,9 @@ The dithered results are stable over six seeds (2026 and 1–5, `results/mac-va/
 `mod` by the same 7 (8 at four seeds), and the raw generator, the dithered rejection and both 53-bit conversions
 pass every statistic in every run.
 The exact integer variant (`*_i` generators: the battery receives ⌊(y·2³² + k′)/n⌋, which is exactly uniform on 32
-bits when y is uniform; `results/mac-va/testu01/seeds_integer`) gives the same rejected statistics with the same
-p-values on seeds 1–5, so the double-precision rounding of the dithered variant has no effect.
+bits when y is uniform; `results/mac-va/testu01/seeds_integer`) gives the same rejected statistics, with the same
+p-values, on seeds 1–5; p-values of non-rejected statistics differ in some tests because the low-order bits differ.
+The double-precision rounding of the dithered variant does not change the verdict.
 SmallCrush consumes about 2.2·10⁸ values per generator (221.5–227.0 million at seed 1), about 9·10⁵ times N* = 251.
 
 ### Excel (E5): `RANDBETWEEN` and `INT(RAND()*n)`, n = 1.5·2^30 (`results/excel-*-va`)
