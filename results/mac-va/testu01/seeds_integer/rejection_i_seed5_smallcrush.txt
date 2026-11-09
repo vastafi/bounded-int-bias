@@ -1,0 +1,161 @@
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                 Starting SmallCrush
+                 Version: TestU01 1.2.3
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+***********************************************************
+HOST = MacBook-Pro-Astafi.local, Darwin
+
+rejection_i
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N =  1,  n = 5000000,  r =  0,    d = 1073741824,    t = 2,    p = 1
+
+
+      Number of cells = d^t = 1152921504606846976
+      Lambda = Poisson mean =      27.1051
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :      27.11
+Total observed number                 :      23
+p-value of test                       :    0.75
+
+
+-----------------------------------------------
+CPU time used                    :  00:00:00.79
+
+Generator state:
+
+
+
+
+***********************************************************
+Test sknuth_Collision calling smultin_Multinomial
+
+***********************************************************
+HOST = MacBook-Pro-Astafi.local, Darwin
+
+rejection_i
+
+
+smultin_Multinomial test:
+-----------------------------------------------
+   N =  1,  n = 5000000,  r =  0,   d = 65536,   t =  2,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =         4294967296
+       Expected number per cell =  1 /  858.99346
+       EColl = n^2 / (2k) =  2910.383046
+       Hashing =   TRUE
+
+       Collision test,    Mu =      2909.2534,    Sigma =    53.8957
+
+-----------------------------------------------
+Test Results for Collisions
+
+Expected number of collisions = Mu    :     2909.25
+Observed number of collisions         :     2835
+p-value of test                       :    0.91
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :       4289970131
+  j =  1                              :          4994330
+  j =  2                              :             2835
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:00:00.61
+
+Generator state:
+
+
+
+
+***********************************************************
+HOST = MacBook-Pro-Astafi.local, Darwin
+
+rejection_i
+
+
+sknuth_Gap test:
+-----------------------------------------------
+   N =  1,  n = 200000,  r = 22,   Alpha =        0,   Beta  = 0.00390625
+
+
+-----------------------------------------------
+Number of degrees of freedom          : 1114
+Chi-square statistic                  : 1146.34
+p-value of test                       :    0.24
+
+-----------------------------------------------
+CPU time used                    :  00:00:00.48
+
+Generator state:
+
+
+
+
+***********************************************************
+HOST = MacBook-Pro-Astafi.local, Darwin
+
+rejection_i
+
+
+sknuth_SimpPoker test:
+-----------------------------------------------
+   N =  1,  n = 400000,  r = 24,   d =   64,   k =   64
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   19
+Chi-square statistic                  :   14.86
+p-value of test                       :    0.73
+
+-----------------------------------------------
+CPU time used                    :  00:00:00.52
+
+Generator state:
+
+
+
+
+***********************************************************
+HOST = MacBook-Pro-Astafi.local, Darwin
+
+rejection_i
+
+
+sknuth_CouponCollector test:
+-----------------------------------------------
+   N =  1,  n = 500000,  r = 26,   d =   16
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   44
+Chi-square statistic                  :   44.49
+p-value of test                       :    0.45
+
+-----------------------------------------------
+CPU time used                    :  00:00:00.43
+
+Generator state:
+
+
+
+
+***********************************************************
+HOST = MacBook-Pro-Astafi.local, Darwin
+
+rejection_i
+
+
+sknuth_MaxOft test
