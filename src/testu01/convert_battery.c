@@ -100,7 +100,18 @@ static uint64_t y_mult53(void) {                          /* floor(n * k53 / 2^5
     return (uint64_t)(p >> 53);
 }
 static uint64_t y_mod53(void) { return k53() % N_RANGE; }
+static unsigned long long n_calls = 0;              /* values handed to TestU01 */
+/* Integer variant (suffix _i): floor((y * 2^32 + k') / n) is exactly uniform on 32 bits when y is uniform on
+ * {0..n-1} (each 32-bit value has exactly n preimages), so no floating-point rounding is involved. */
+static unsigned int gen_integer(void) {
+    uint64_t y = int_conv();
+    uint64_t t = (y << 32) | (uint64_t)mt_next();     /* y < n < 2^31, so t < 2^63 */
+    n_calls++;
+    return (unsigned int)(t / N_RANGE);
+}
+static unsigned int gen_raw_bits(void) { n_calls++; return mt_next(); }
 static double gen_dithered(void) {
+    n_calls++;
     uint64_t y = int_conv();
     return ((double)y + mt_next() / 4294967296.0) / (double)N_RANGE;
 }
@@ -120,6 +131,9 @@ int main(void) {
     /* k53 must equal Python's random() * 2^53 for the same MT stream (seed 2026 via init_genrand) */
     mt_seed(2026u);
     printf("first k53 / 2^53 = %.17f\n", k53() / 9007199254740992.0);
+    int_conv = y_rejection; mt_seed(2026u);
+    { double s2 = 0; for (long i = 0; i < 10000000; i++) s2 += gen_integer() / 4294967296.0;
+      printf("integer rejection: mean %.5f (expect 0.5)\n", s2 / 1e7); }
     int_conv = y_mult53; mt_seed(2026u);
     printf("first mult53 y = %llu\n", (unsigned long long)y_mult53());
     return 0;
@@ -129,7 +143,7 @@ int main(void) {
 #include "bbattery.h"
 
 int main(int argc, char **argv) {
-    if (argc < 3) { fprintf(stderr, "usage: convert_battery <raw|rejection|mult|mod|rejection_d|mult_d|mod_d|mult53_d|mod53_d> <small|crush>\n"); return 1; }
+    if (argc < 3) { fprintf(stderr, "usage: convert_battery <raw|rejection|mult|mod|*_d|raw_i|rejection_i|mult_i|mod_i|mult53_i|mod53_i> <small|crush> [seed]\n"); return 1; }
     double (*f)(void) = NULL;
     if (!strcmp(argv[1], "raw")) f = gen_raw;
     else if (!strcmp(argv[1], "rejection")) f = gen_rejection;
@@ -140,11 +154,19 @@ int main(int argc, char **argv) {
     else if (!strcmp(argv[1], "mod_d")) { int_conv = y_mod; f = gen_dithered; }
     else if (!strcmp(argv[1], "mult53_d")) { int_conv = y_mult53; f = gen_dithered; }
     else if (!strcmp(argv[1], "mod53_d")) { int_conv = y_mod53; f = gen_dithered; }
-    if (!f) { fprintf(stderr, "unknown generator %s\n", argv[1]); return 1; }
+    unsigned int (*fb)(void) = NULL;
+    if (!strcmp(argv[1], "raw_i")) fb = gen_raw_bits;
+    else if (!strcmp(argv[1], "rejection_i")) { int_conv = y_rejection; fb = gen_integer; }
+    else if (!strcmp(argv[1], "mult_i")) { int_conv = y_mult; fb = gen_integer; }
+    else if (!strcmp(argv[1], "mod_i")) { int_conv = y_mod; fb = gen_integer; }
+    else if (!strcmp(argv[1], "mult53_i")) { int_conv = y_mult53; fb = gen_integer; }
+    else if (!strcmp(argv[1], "mod53_i")) { int_conv = y_mod53; fb = gen_integer; }
+    if (!f && !fb) { fprintf(stderr, "unknown generator %s\n", argv[1]); return 1; }
     mt_seed(argc > 3 ? (uint32_t)strtoul(argv[3], NULL, 10) : 2026u);   /* optional seed, default 2026 */
-    unif01_Gen *g = unif01_CreateExternGen01(argv[1], f);
+    unif01_Gen *g = f ? unif01_CreateExternGen01(argv[1], f) : unif01_CreateExternGenBits(argv[1], fb);
     if (!strcmp(argv[2], "crush")) bbattery_Crush(g); else bbattery_SmallCrush(g);
-    unif01_DeleteExternGen01(g);
+    if (f) unif01_DeleteExternGen01(g); else unif01_DeleteExternGenBits(g);
+    printf("\nValues consumed by the battery (dithered and integer generators): %llu\n", n_calls);
     return 0;
 }
 #endif

@@ -92,8 +92,15 @@ comparable to n. Accuracy of N* against exact binomial power: `results/linux-clo
 ### Without knowing w and the method, and over many n
 
 - `scripts/scan_heavy.py` tests every distinct sample against the heavy sets of all plausible (w, method),
-  with Holm within and across samples (`results/scan_heavy.csv`): of 29 distinct samples, exactly the 5 produced
-  by biased idioms with N ≥ N* are rejected; every library function passes against the 31/32-bit heavy sets.
+  counting each distinct heavy set once (it depends only on r = 2^w mod n and the method), with Holm within and
+  across samples (`results/scan_heavy.csv`): of 29 distinct samples, the 4 produced by biased reductions with
+  N ≥ N* are rejected, plus the Windows `rand() % n` sample at n = 1.5·2^30, which is a range truncation; every
+  library function passes against the 31/32-bit heavy sets. `scripts/scan_size.py`: under exact uniformity the scan
+  rejects in 4.1% (n = 1.5·2^30) and 3.9% (n = 20,000) of 1,000 replications; at N = N* its power is 0.64 / 0.60
+  against 0.81 / 0.76 for the test that knows (w, method) (`results/linux-cloud/scan_size.csv`).
+- `scripts/threshold_check.py`: real glibc `rand() % n` and R `Rounding` samples (200 seeds each) at five n with
+  N/N* ≈ 0.25–4 (N = 10⁴): the rejection rate matches the exact power within 1.5 standard errors in all 10 cases
+  (`results/linux-cloud/threshold_check.csv`).
 - `scripts/sweep_n.py` repeats the audit for n = 10², …, 10⁹ and 1.5·2^30 (`results/linux-cloud/sweep_n.csv`):
   Holm rejects 5 of 45 tests, exactly those with N ≥ N*.
 
@@ -101,8 +108,8 @@ comparable to n. Accuracy of N* against exact binomial power: `results/linux-clo
 
 Simple random sample of 1,000 out of 20,000 ordered records by a partial Fisher–Yates shuffle with
 `j = t + rand() % (m − t)`, 4,000 replications: with the Windows `rand()` the sample mean is 0.439 instead of 0.5,
-a bias of 7.3 standard deviations of the estimator; a uniform 15-bit word gives the same bias, a 31-bit word and
-an unbiased reduction give none.
+a bias of 6.9 standard deviations of the correct estimator (7.3 of the biased one); a uniform 15-bit word gives the
+same bias, a 31-bit word and an unbiased reduction give none. Replicate seeds are hashed with SplitMix64.
 
 ### Where the bias is detectable
 
@@ -158,7 +165,8 @@ src/languages/<language>/   generators: C, C++, R, Python, Java, JavaScript; Exc
 src/practical/              E6: raffle and sampling with rand() % m; exact model of the Windows rand()
 src/testu01/                E7: TestU01 harness
 scripts/                    run_local.sh / .bat, run_testu01.sh, analyze_all.py, compare_sources.py, import_excel_csv.py,
-                            excel_rand_bits.py, summarize_testu01.py, multiple_testing.py, scan_heavy.py, sweep_n.py,
+                            excel_rand_bits.py, summarize_testu01.py, multiple_testing.py, scan_heavy.py, scan_size.py, sweep_n.py,
+                            threshold_check.py,
                             make_figures.py, check_repo.py
 results/<source-id>/        data and results, one folder per source (see results/README.md)
 figures/                    article figures (PDF + PNG)
@@ -199,6 +207,8 @@ python3 scripts/make_figures.py
 # 8. Multiple testing: scan over (w, method) for every source, and the sweep over n (needs gcc and Rscript)
 python3 scripts/multiple_testing.py
 python3 scripts/scan_heavy.py
+python3 scripts/scan_size.py
+python3 scripts/threshold_check.py mac-yourname
 python3 scripts/sweep_n.py mac-yourname
 python3 src/theory/nstar_accuracy.py
 python3 src/practical/sampling.py results/mac-yourname/practical

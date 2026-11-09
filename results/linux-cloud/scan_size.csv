@@ -1,0 +1,5 @@
+case,n,N,distinct_tests,reps,scan_reject_rate,single_test_power
+H0 (uniform),1610612736,100000,4,1000,0.041,
+H0 (uniform),20000,100000,12,1000,0.039,
+"mult, w = 32, N = N*",1610612736,251,4,1000,0.644,0.808
+"mod, w = 31, N = N*",1610612736,63,4,1000,0.6,0.758

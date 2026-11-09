@@ -1,5 +1,5 @@
-generator,m,k,replications,mean_of_sample_means,bias,mc_se,z,bias_in_sampling_sd
-"Windows rand() % (m - t), 15 bits",20000,1000,4000,0.43928,-0.06072,0.00013,-461.9,-7.304
-uniform 15-bit word % (m - t) (reduction only),20000,1000,4000,0.43890,-0.06110,0.00013,-469.9,-7.429
-31-bit word % (m - t),20000,1000,4000,0.50010,+0.00010,0.00014,+0.7,+0.011
-unbiased reduction (control),20000,1000,4000,0.50006,+0.00006,0.00014,+0.5,+0.007
+generator,m,k,replications,mean_of_sample_means,bias,mc_se,z,bias_in_sampling_sd,bias_in_srs_sd
+"Windows rand() % (m - t), 15 bits",20000,1000,4000,0.43892,-0.06108,0.00013,-463.0,-7.321,-6.864
+uniform 15-bit word % (m - t) (reduction only),20000,1000,4000,0.43890,-0.06110,0.00013,-469.9,-7.429,-6.866
+31-bit word % (m - t),20000,1000,4000,0.50010,+0.00010,0.00014,+0.7,+0.011,+0.011
+unbiased reduction (control),20000,1000,4000,0.50006,+0.00006,0.00014,+0.5,+0.007,+0.007
