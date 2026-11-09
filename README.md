@@ -136,6 +136,10 @@ The dithered results are stable over six seeds (2026 and 1–5, `results/mac-va/
 `sh scripts/run_testu01_seeds.sh <source-id>`): `mult` is rejected by the same 8 statistics (9 at one seed),
 `mod` by the same 7 (8 at four seeds), and the raw generator, the dithered rejection and both 53-bit conversions
 pass every statistic in every run.
+The exact integer variant (`*_i` generators: the battery receives ⌊(y·2³² + k′)/n⌋, which is exactly uniform on 32
+bits when y is uniform; `results/mac-va/testu01/seeds_integer`) gives the same rejected statistics with the same
+p-values on seeds 1–5, so the double-precision rounding of the dithered variant has no effect.
+SmallCrush consumes about 2.2·10⁸ values per generator (221.5–227.0 million at seed 1), about 9·10⁵ times N* = 251.
 
 ### Excel (E5): `RANDBETWEEN` and `INT(RAND()*n)`, n = 1.5·2^30 (`results/excel-*-va`)
 
@@ -223,6 +227,10 @@ python3 scripts/check_repo.py
 # downloads and builds TestU01 in ~/testu01 once, then runs SmallCrush on 9 generators (a few minutes)
 sh scripts/run_testu01.sh mac-yourname
 python3 scripts/summarize_testu01.py mac-yourname
+# five seeds of the exact integer variant (default); for the dithered one prefix with
+# GENS="raw rejection_d mult_d mod_d mult53_d mod53_d" OUT=seeds
+sh scripts/run_testu01_seeds.sh mac-yourname
+python3 scripts/summarize_testu01.py mac-yourname seeds_integer
 ```
 
 ### Excel (E5, Windows or macOS)
